@@ -1,0 +1,4 @@
+1. 통계지리정보서비스(http://sgis.kostat.co.kr) : 서울의 각 지역구 Geo Data 수집
+2. 서울 열린 데이터 광장(http://data.seoul.go.kr) : 서울 지역구 별 시각화 할 Data 수집
+
+에서 데이터를 제공 받음.

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" type="text/css" href="css/Site.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="Scripts/kinetic.js"></script>
+    <script type="text/javascript" src="Scripts/reSeoul.js"></script>
+	<script type="text/javascript">
+    var canvasWidth = $(window).width() - 200;
+
+    var inputArray = new Array();
+    var inputdata1 = [73693, 60600, 109361, 126447, 159173, 159256, 174938, 196693, 141246, 137714, 222132, 202487, 135272, 166780, 180443, 226607, 171419, 104179, 167761, 172700, 248006, 170594, 230645, 257441, 186764];
+    var inputdata2 = [2302, 2602, 3386, 3561, 3254, 6184, 6109, 6300, 6726, 3561, 12154, 6499, 3754, 3841, 4295, 10535, 3749, 4889, 5246, 3733, 6770, 1986, 5256, 3719, 4216];
+    var inputdata3 = [7845, 4494, 2397, 2799, 3907, 5454, 3222, 3953, 2284, 1583, 5318, 3250, 6095, 2651, 4517, 3916, 3794, 1782, 6620, 4884, 2427, 8584, 20272, 10089, 6368];
+    var inputdata4 = [4002, 4907, 2920, 7120, 4848, 7807, 6261, 8827, 4387, 5472, 9351, 7581, 4945, 6252, 8353, 7658, 9184, 3532, 7991, 7722, 6259, 9000, 15961, 8311, 7713];
+    inputArray.push(inputdata1);
+    inputArray.push(inputdata2);
+    inputArray.push(inputdata3);
+    inputArray.push(inputdata4);
+
+    $(document).ready(function () {
+
+        var stage = new Kinetic.Stage({
+            container: 'canvasmap',
+            width: canvasWidth,
+            height: canvasWidth * 2 / 5 + 30
+        });
+
+        $('#map').reSeoul({
+            width: canvasWidth,
+            mapstage: stage
+        });
+
+        $('input[type=radio]').click(function () {
+            $('#map').setData({
+                settingData: inputArray[parseInt($(this).val())]
+            });
+        });
+        
+        $(window).resize($('#map').reSize({
+            width : canvasWidth    
+        }));
+    });
+
+</script>    
+</head>
+
+<body class="center" style="margin-top:10px;">
+    <div class="center" style="padding:10px 0 0 0; max-width:1300px; margin-bottom:5px;">
+    <span>"Re.SEOUL. 서울을 다시 그리다."</span><br />
+    <br />
+    <div>
+        <input type="radio" name="choose" value="0">인구수
+        <input type="radio" name="choose" value="1">국민기초 생활보장 수급자수
+        <input type="radio" name="choose" value="2">의료 인력수
+        <input type="radio" name="choose" value="3">교육재정 지원액
+    </div>
+	</div>
+	<div id="map">
+		<div id="canvasmap" style="display:inline-block; width:100%;"></div>
+	</div>
+
+    <div class="center" style="max-width:1000px;">
+        <div class="footer">
+            <p>Designed and built by <a href="" target="_blank">MJ.YP.HM</a></p>
+			<p>licensed under the GPL licenses.</p>
+        </div>
+    </div>
+</body>
+</html>
