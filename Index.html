@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" type="text/css" href="css/Site.css">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="Scripts/kinetic.js"></script>
-    <script type="text/javascript" src="Scripts/reSeoul.js"></script>
+  <script type="text/javascript" src="Scripts/kinetic.js"></script>
+  <script type="text/javascript" src="Scripts/reSeoul.js"></script>
 	<script type="text/javascript">
     var canvasWidth = $(window).width() - 200;
 
@@ -22,51 +22,52 @@
 
     $(document).ready(function () {
 
-        var stage = new Kinetic.Stage({
-            container: 'canvasmap',
-            width: canvasWidth,
-            height: canvasWidth * 2 / 5 + 30
-        });
+      var stage = new Kinetic.Stage({
+        container: 'canvasmap',
+        width: canvasWidth,
+        height: canvasWidth * 2 / 5 + 30
+      });
 
-        $('#map').reSeoul({
-            width: canvasWidth,
-            mapstage: stage
-        });
+      $('#map').reSeoul({
+        width: canvasWidth,
+        mapstage: stage
+      });
 
-        $('input[type=radio]').click(function () {
-            $('#map').setData({
-                settingData: inputArray[parseInt($(this).val())]
-            });
+      $('input[type=radio]').click(function () {
+        $('#map').setData({
+          settingData: inputArray[parseInt($(this).val())]
         });
+      });
         
-        $(window).resize($('#map').reSize({
-            width : canvasWidth    
-        }));
+      $(window).resize(function () {
+        $('#map').reSize({
+          width : canvasWidth    
+        });
+      });
     });
-
 </script>    
 </head>
 
 <body class="center" style="margin-top:10px;">
-    <div class="center" style="padding:10px 0 0 0; max-width:1300px; margin-bottom:5px;">
-    <span>"Re.SEOUL. 서울을 다시 그리다."</span><br />
-    <br />
-    <div>
-        <input type="radio" name="choose" value="0">인구수
-        <input type="radio" name="choose" value="1">국민기초 생활보장 수급자수
-        <input type="radio" name="choose" value="2">의료 인력수
-        <input type="radio" name="choose" value="3">교육재정 지원액
-    </div>
+  <div class="center" style="padding:10px 0 0 0; max-width:1300px; margin-bottom:5px;">
+  <span>"Re.SEOUL. 서울을 다시 그리다."</span><br />
+  <br />
+  <div>
+    <input type="radio" name="choose" value="0">인구수
+    <input type="radio" name="choose" value="1">국민기초 생활보장 수급자수
+    <input type="radio" name="choose" value="2">의료 인력수
+    <input type="radio" name="choose" value="3">교육재정 지원액
+  </div>
 	</div>
 	<div id="map">
 		<div id="canvasmap" style="display:inline-block; width:100%;"></div>
 	</div>
-
-    <div class="center" style="max-width:1000px;">
-        <div class="footer">
-            <p>Designed and built by <a href="" target="_blank">MJ.YP.HM</a></p>
-			<p>licensed under the GPL licenses.</p>
-        </div>
+  <div class="center" style="max-width:1000px;">
+    <div class="footer">
+      <p>Designed and built by <a href="" target="_blank">MJ.YP.HM</a></p>
+		  <p>licensed under the GPL licenses.</p>
     </div>
+  </div>
 </body>
+
 </html>
