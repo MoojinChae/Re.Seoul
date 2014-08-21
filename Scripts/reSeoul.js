@@ -167,14 +167,13 @@
         
         drawMap(geoAllArray, false);
       }
-      else cartogramIter();
+      else cartogramIter(false, 1);
     }
 
-    function cartogramIter() {
-      var cnt = 0;
-      var error = 0;
-      interval = window.setInterval(function () {
-        cnt++;
+    function cartogramIter(is_end, cnt) {
+      if(!is_end) {
+        var error = 0;
+
         var totalArea = 0;
         var totalValue = 0;
 
@@ -229,22 +228,30 @@
             geoAllArray[j].All[k].y -= deltaVector.y * forceReductionFactor;
           }
         }
-        drawMap(geoAllArray, false);
-
-        $('#minimap').empty();
-        $('#minimap').append("Iteration이 " + cnt + "번 진행 중입니다. 현재 평균넓이오차 는 " + (totalErrorTemp / 25) + "입니다.");
-
+        
+        
         if ((totalErrorTemp / 25) < 5) {
-          clearInterval(interval);
-          interval = null;
           drawMap(geoAllArray, true);
 
           $('#minimap').empty();
           $('#minimap').append("Iteration이 " + cnt + "번 진행 후 완료 되었습니다. 최종 평균넓이오차 는 " + (totalErrorTemp / 25) + "입니다.");
-          
+
+          requestAnimFrame(function() {
+            cartogramIter(true, cnt);
+          });
+        }
+        else {
+          drawMap(geoAllArray, false);
+
+          $('#minimap').empty();
+          $('#minimap').append("Iteration이 " + cnt + "번 진행 중입니다. 현재 평균넓이오차 는 " + (totalErrorTemp / 25) + "입니다.");
+
+          requestAnimFrame(function() {
+            cartogramIter(false, cnt+1);
+          });
         }
         error = totalErrorTemp / 25;
-      }, 100);
+      }
     }
 
     function drawMap(geoArr, is_end) {
@@ -372,6 +379,13 @@
       stage.add(layer);
 
     }
+
+    window.requestAnimFrame = (function(callback) {
+      return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+      function(callback) {
+        window.setTimeout(callback, 1000 / 100);
+      };
+    })();
 
     function vectorAngle(pt1, pt2) {
       var d1 = pt1.x - pt2.x;
