@@ -108,8 +108,22 @@ var infoLabelArray = new Array();
   }
 
   function drawCartogram(init) {
+    for (var i = 0; i < geoAllInitArray.length; i++) {
+      for (var j = 0; j < geoAllInitArray[i].All.length; j++) {
+          geoAllArray[i].All[j].x = geoAllInitArray[i].All[j].x;
+          geoAllArray[i].All[j].y = geoAllInitArray[i].All[j].y;
+      }
+      geoAllArray[i].Area = geoAllInitArray[i].Area;
+      geoAllArray[i].Centroid.x = geoAllInitArray[i].Centroid.x;
+      geoAllArray[i].Centroid.y = geoAllInitArray[i].Centroid.y;
+      geoAllArray[i].Desired = geoAllInitArray[i].Desired;
+      geoAllArray[i].Mass = geoAllInitArray[i].Mass;
+      geoAllArray[i].Radius = geoAllInitArray[i].Radius;
+      geoAllArray[i].Value = geoAllInitArray[i].Value;
+    }
+        
     if(init) {
-    	drawMap(geoAllInitArray);
+    	drawMap(geoAllArray);
     }
     else {
     	cartogramIter();
@@ -188,6 +202,7 @@ var infoLabelArray = new Array();
 
         $('#minimap').empty();
         $('#minimap').append("Iteration이 " + cnt + "번 진행 후 완료 되었습니다. 최종 평균넓이오차 는 " + (totalErrorTemp / 25) + "입니다.");
+      	
       }
       error = totalErrorTemp / 25;
     }, 100);
