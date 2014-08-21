@@ -31,28 +31,31 @@
     return null;
   };
   
+  function GeoData(all, area, centroid, value, radius, mass, desired, name) {
+    this.All = all;
+    this.Area = area;
+    this.Centroid = centroid;
+    this.Value = value;
+    this.Radius = radius;
+    this.Mass = mass;
+    this.Desired = desired;
+    this.Name = name;
+  }
+  
   function drawFirst() {      
     for (var i = 0; i < json.features.length; i++) {
-      var geoArray = moveToCenter(json.features[i].geometry.coordinates[0]);
+      var area = polygonArea(geoArray);
+      var centroid = polygonCentroid(geoArray);
 
+
+      var geoArray = moveToCenter(json.features[i].geometry.coordinates[0]);
       for (var j = 0; j < geoArray.length; j++) {
         geoArray[j].x = geoArray[j][0];
         geoArray[j].y = geoArray[j][1];
       }
 
-      var area = polygonArea(geoArray);
-      var centroid = polygonCentroid(geoArray);
-      var geoData = {
-        All: geoArray,
-        Area: area,
-        Centroid: centroid,
-        Value: area,
-        Radius: 0,
-        Mass: 0,
-        Desired: 0,
-        Name: json.features[i].properties.Description
-      };
-      geoAllArray.push(geoData);
+      var data = new GeoData(geoArray, area, centroid, area, 0, 0, 0, json.features[i].properties.Description);
+      geoAllArray.push(data);
 
       var geoArrayInit = new Array();
       for (var j = 0; j < geoArray.length; j++) {
@@ -61,17 +64,8 @@
           geoArrayInit[j].y = geoArray[j][1];
       }
 
-      var geoDatainit = {
-        All: geoArrayInit,
-        Area: area,
-        Centroid: centroid,
-        Value: area,
-        Radius: 0,
-        Mass: 0,
-        Desired: 0,
-        Name: json.features[i].properties.Description
-      };
-      geoAllInitArray.push(geoDatainit);
+      var datainit  = new GeoData(geoArrayInit, area, centroid, area, 0, 0, 0, json.features[i].properties.Description);
+      geoAllInitArray.push(datainit);
     }
 
     setInitData();
@@ -123,19 +117,8 @@
 
   function drawCartogram(init) {
     if(init) {
-    	for (var i = 0; i < geoAllInitArray.length; i++) {
-        for (var j = 0; j < geoAllInitArray[i].All.length; j++) {
-            geoAllArray[i].All[j].x = geoAllInitArray[i].All[j].x;
-            geoAllArray[i].All[j].y = geoAllInitArray[i].All[j].y;
-        }
-        geoAllArray[i].Area = geoAllInitArray[i].Area;
-        geoAllArray[i].Centroid.x = geoAllInitArray[i].Centroid.x;
-        geoAllArray[i].Centroid.y = geoAllInitArray[i].Centroid.y;
-        geoAllArray[i].Desired = geoAllInitArray[i].Desired;
-        geoAllArray[i].Mass = geoAllInitArray[i].Mass;
-        geoAllArray[i].Radius = geoAllInitArray[i].Radius;
-        geoAllArray[i].Value = geoAllInitArray[i].Value;
-      }
+      copyArray(geoAllInitArray, geoAllArray);
+    	
     	drawMap(geoAllArray, false);
     }
     else cartogramIter();
@@ -439,6 +422,22 @@
      ((0 | (1 << 8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
      ((0 | (1 << 8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
      ((0 | (1 << 8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+  }
+
+  function copyArray(beforearr, afterarr) {
+    for (var i = 0; i < beforearr.length; i++) {
+      for (var j = 0; j < beforearr[i].All.length; j++) {
+          afterarr[i].All[j].x = beforearr[i].All[j].x;
+          afterarr[i].All[j].y = beforearr[i].All[j].y;
+      }
+      afterarr[i].Area = beforearr[i].Area;
+      afterarr[i].Centroid.x = beforearr[i].Centroid.x;
+      afterarr[i].Centroid.y = beforearr[i].Centroid.y;
+      afterarr[i].Desired = beforearr[i].Desired;
+      afterarr[i].Mass = beforearr[i].Mass;
+      afterarr[i].Radius = beforearr[i].Radius;
+      afterarr[i].Value = beforearr[i].Value;
+    }
   }
 
   function chooseData(settingData) {
