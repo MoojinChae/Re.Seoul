@@ -8,7 +8,6 @@
   <script type="text/javascript" src="Scripts/kinetic.js"></script>
   <script type="text/javascript" src="Scripts/reSeoul.js"></script>
 	<script type="text/javascript">
-    var canvasWidth = $(window).width() - 200;
 
     var inputArray = new Array();
     var inputdata1 = [73693, 60600, 109361, 126447, 159173, 159256, 174938, 196693, 141246, 137714, 222132, 202487, 135272, 166780, 180443, 226607, 171419, 104179, 167761, 172700, 248006, 170594, 230645, 257441, 186764];
@@ -21,11 +20,20 @@
     inputArray.push(inputdata4);
 
     $(document).ready(function () {
+      var canvasWidth;
+      if($(window).width() > 1000) {
+        canvasWidth = $(window).width() - 200;
+      }
+      else {
+        canvasWidth = $(window).width();
+      }
 
+      var canvasHeight = canvasWidth * 2 / 5;
+      
       var stage = new Kinetic.Stage({
         container: 'canvasmap',
         width: canvasWidth,
-        height: canvasWidth * 2 / 5 + 30
+        height: canvasHeight
       });
 
       $('#map').reSeoul({
@@ -36,12 +44,6 @@
       $('input[type=radio]').click(function () {
         $('#map').setData({
           settingData: inputArray[parseInt($(this).val())]
-        });
-      });
-        
-      $(window).resize(function () {
-        $('#map').reSize({
-          width : canvasWidth    
         });
       });
     });
@@ -64,7 +66,7 @@
 	</div>
   <div class="center" style="max-width:1000px;">
     <div class="footer">
-      <p>Designed and built by <a href="" target="_blank">MJ.YP.HM</a></p>
+      <p>Designed and built by <a href="" target="_blank">Mujin.Chae</a></p>
 		  <p>licensed under the GPL licenses.</p>
     </div>
   </div>
